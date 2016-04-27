@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using System.Security.Claims
+
+@model IEnumerable<FlickrClone.Models.Profile>
+
+<h2>@User.GetUserName()'s Profile</h2>
+
