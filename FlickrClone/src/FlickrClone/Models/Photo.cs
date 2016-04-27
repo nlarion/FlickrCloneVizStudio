@@ -13,8 +13,10 @@ namespace FlickrClone.Models
         [Key]
         public int PhotoId { get; set; }    
         public string Comment { get; set; }
+        public string Location { get; set; }
         public bool Public { get; set; }
-        public int ProifleId { get; set; }
-        public virtual Profile Profile { get; set; }
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

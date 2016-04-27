@@ -7,13 +7,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlickrClone.Models
 {
-    [Table("Profiles")]
-    public class Profile
+    [Table("Categories")]
+    public class Category
     {
         [Key]
-        public int ProfileId { get; set; }
-        public string About { get; set; }
-        public string HomePage { get; set; }
+        public int CategoryId { get; set; }
+        public string Name { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ApplicationUser User { get; set; }
     }

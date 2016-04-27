@@ -8,8 +8,8 @@ using FlickrClone.Models;
 namespace FlickrClone.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20160427183650_MoreTables")]
-    partial class MoreTables
+    [Migration("20160427224506_A")]
+    partial class A
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,38 +65,38 @@ namespace FlickrClone.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUsers");
                 });
 
+            modelBuilder.Entity("FlickrClone.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("CategoryId");
+
+                    b.HasAnnotation("Relational:TableName", "Categories");
+                });
+
             modelBuilder.Entity("FlickrClone.Models.Photo", b =>
                 {
                     b.Property<int>("PhotoId")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("CategoryId");
+
                     b.Property<string>("Comment");
 
-                    b.Property<int?>("ProfileProfileId");
-
-                    b.Property<int>("ProifleId");
+                    b.Property<string>("Location");
 
                     b.Property<bool>("Public");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("PhotoId");
 
                     b.HasAnnotation("Relational:TableName", "Photos");
-                });
-
-            modelBuilder.Entity("FlickrClone.Models.Profile", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("About");
-
-                    b.Property<string>("HomePage");
-
-                    b.Property<string>("UserId");
-
-                    b.HasKey("ProfileId");
-
-                    b.HasAnnotation("Relational:TableName", "Profiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNet.Identity.EntityFramework.IdentityRole", b =>
@@ -181,15 +181,19 @@ namespace FlickrClone.Migrations
                     b.HasAnnotation("Relational:TableName", "AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("FlickrClone.Models.Photo", b =>
+            modelBuilder.Entity("FlickrClone.Models.Category", b =>
                 {
-                    b.HasOne("FlickrClone.Models.Profile")
+                    b.HasOne("FlickrClone.Models.ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ProfileProfileId");
+                        .HasForeignKey("UserId");
                 });
 
-            modelBuilder.Entity("FlickrClone.Models.Profile", b =>
+            modelBuilder.Entity("FlickrClone.Models.Photo", b =>
                 {
+                    b.HasOne("FlickrClone.Models.Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
                     b.HasOne("FlickrClone.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId");

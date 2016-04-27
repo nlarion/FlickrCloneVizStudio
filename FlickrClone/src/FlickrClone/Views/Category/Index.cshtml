@@ -5,15 +5,14 @@
 
 @using System.Security.Claims
 
-@model IEnumerable<FlickrClone.Models.Profile>
+@model IEnumerable<FlickrClone.Models.Category>
 
 <h2>@User.GetUserName()'s Profile</h2>
-
 <h2>Load Image</h2>
 @using (Html.BeginForm("Index",
-    "Home",
-    FormMethod.Post,
-    new { enctype = "multipart/form-data" }))
+                "Home",
+                FormMethod.Post,
+                new { enctype = "multipart/form-data" }))
 {
     <label for="file">Upload Image:</label>
     <input type="file" name="files" id="file" /><br><br>

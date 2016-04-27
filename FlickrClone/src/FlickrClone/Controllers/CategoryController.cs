@@ -16,14 +16,13 @@ using Microsoft.Net.Http.Headers;
 namespace FlickrClone.Controllers
 {
     [Authorize]
-    public class ProfileController : Controller
+    public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _db;
         private IHostingEnvironment _env;
-
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext db, IHostingEnvironment env)
+        public CategoryController(UserManager<ApplicationUser> userManager, ApplicationDbContext db, IHostingEnvironment env)
         {
             _userManager = userManager;
             _db = db;
@@ -34,23 +33,25 @@ namespace FlickrClone.Controllers
         {
             var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
 
-            var theView = _db.Profile
+            var theView = _db.Categories
                 .Where(x => x.User.Id == currentUser.Id);
 
             return View(theView);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ICollection<IFormFile> files)
+        public async Task<IActionResult> Index(IFormFile file, Photo photo)
         {
             var uploads = Path.Combine(_env.WebRootPath, "Images");
-            foreach (var file in files)
+            if (file != null)
             {
-                if (file.Length > 0)
-                {
-                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    await file.SaveAsAsync(Path.Combine(uploads, fileName));
-                }
+                var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                await file.SaveAsAsync(Path.Combine(uploads, fileName));
+                var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
+                photo.User = currentUser;
+                photo.Location = Path.Combine(uploads, fileName);
+                _db.Photos.Add(photo);
+                _db.SaveChanges();
             }
             return View();
         }

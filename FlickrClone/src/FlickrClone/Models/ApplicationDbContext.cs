@@ -14,7 +14,7 @@ namespace FlickrClone.Models
         {
             base.OnModelCreating(builder);
         }
-        public DbSet<Photo> Items { get; set; }
-        public DbSet<Profile> Profile { get; set; }
+        public DbSet<Photo> Photos { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

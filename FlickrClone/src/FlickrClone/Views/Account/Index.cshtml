@@ -5,17 +5,46 @@
 
 @using System.Security.Claims
 
-<h2>Authentication with Identity</h2>
+@model IEnumerable<FlickrClone.Models.Category>
+
+<h2>FLICKR CLONE</h2>
 <hr />
 @if (User.IsSignedIn())
 {
     <p>Hello @User.GetUserName()!</p>
+
     @using (Html.BeginForm("LogOff", "Account"))
     {
         <input type="submit" class="btn btn-warning" value="Log out" />
     }
     <br />
-    @Html.ActionLink("PROFILE", "Index", "Profile", null, new { @class= "btn btn-warning"})
+    @if (Model.Any())
+    {
+        <ul>
+            @foreach (var listCategory in Model)
+            {
+                <li>@Html.ActionLink(listCategory.Name, "Index","Category",new { id= listCategory.CategoryId})  | @Html.ActionLink("Delete", "Delete", new { id = listCategory.CategoryId }) | @Html.ActionLink("Edit", "Update", new { id = listCategory.CategoryId }) </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>No Categories have been added yet!</p>
+    }
+
+    <h2>Create Category</h2>
+    @using (Html.BeginForm("newCategory", "Account"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div>Category Name</div>
+
+        <p>
+            @Html.TextBox("Name")
+        </p>
+        <input type="submit" value="submit" class="btn btn-warning" />
+    }
 }
 else
 {

@@ -13,7 +13,7 @@ namespace FlickR.Tests
         public void GetProfileIdTest()
         {
             //Arrange
-            var id = new Profile();
+            var id = new Category();
             id.ProfileId = 1;
 
             //Act
