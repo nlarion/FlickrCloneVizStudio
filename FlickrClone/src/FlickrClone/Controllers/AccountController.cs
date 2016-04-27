@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using FlickrClone.Models;
 using FlickrClone.ViewModels;
 using System.Security.Claims;
+using Microsoft.Data.Entity;
 
 namespace FlickrClone.Controllers
 {
@@ -89,6 +90,21 @@ namespace FlickrClone.Controllers
             _db.SaveChanges();
 
             return RedirectToAction("Index", "Account");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var thisProject = _db.Categories.FirstOrDefault(q => q.CategoryId == id);
+            return View(thisProject);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var thisProject = await _db.Categories.FirstOrDefaultAsync(q => q.CategoryId == id);
+            _db.Categories.Remove(thisProject);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }
