@@ -33,6 +33,7 @@ namespace BasicAuthentication
         public void Configure(IApplicationBuilder app)
         {
             app.UseIISPlatformHandler();
+            app.UseStaticFiles();
             app.UseIdentity();
             app.UseMvc(routes =>
             {

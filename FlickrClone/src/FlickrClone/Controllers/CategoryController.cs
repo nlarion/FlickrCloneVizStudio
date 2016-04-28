@@ -36,7 +36,8 @@ namespace FlickrClone.Controllers
             var theView = await _db.Categories
                 .FirstOrDefaultAsync(x => x.CategoryId == id);
 
-            //ViewBag.Category = await _db.
+            ViewBag.Photos = _db.Photos
+                .Where(x => x.CategoryId == id);
 
             return View(theView);
         }
@@ -52,7 +53,7 @@ namespace FlickrClone.Controllers
                 await file.SaveAsAsync(Path.Combine(uploads, fileName));
                 var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
                 photo.User = currentUser;
-                photo.Location = Path.Combine(uploads, fileName);
+                photo.Location = Path.Combine("\\Images", fileName);
                 _db.Photos.Add(photo);
                 _db.SaveChanges();
             }
