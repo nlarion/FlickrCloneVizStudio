@@ -29,12 +29,14 @@ namespace FlickrClone.Controllers
             _env = env;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
 
-            var theView = _db.Categories
-                .Where(x => x.User.Id == currentUser.Id);
+            var theView = await _db.Categories
+                .FirstOrDefaultAsync(x => x.CategoryId == id);
+
+            //ViewBag.Category = await _db.
 
             return View(theView);
         }
@@ -42,6 +44,7 @@ namespace FlickrClone.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(IFormFile file, Photo photo)
         {
+           
             var uploads = Path.Combine(_env.WebRootPath, "Images");
             if (file != null)
             {
@@ -53,7 +56,7 @@ namespace FlickrClone.Controllers
                 _db.Photos.Add(photo);
                 _db.SaveChanges();
             }
-            return View();
+            return RedirectToAction("Index", "Category", new { id = photo.CategoryId });
         }
     }
 }
