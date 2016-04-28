@@ -59,5 +59,21 @@ namespace FlickrClone.Controllers
             }
             return RedirectToAction("Index", "Category", new { id = photo.CategoryId });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Comment(Photo photo)
+        {
+            var currentUser = await _userManager.FindByIdAsync(User.GetUserId());
+
+            photo.User = currentUser;
+
+            _db.Entry(photo).State = EntityState.Modified;
+
+            _db.SaveChanges();
+
+            return RedirectToAction("Index", "Category", new { id = photo.CategoryId });
+
+
+        }
     }
 }

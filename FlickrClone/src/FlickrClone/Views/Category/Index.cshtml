@@ -23,13 +23,28 @@
 
 @if (ViewBag.Photos != null)
 {
-    <div>
+    
         <h3>@Model.Name photos</h3>
-        @foreach(var x in ViewBag.Photos)
+        @foreach (var x in ViewBag.Photos)
         {
             <img src="@x.Location" />
-            <p>Things</p>
-        }
-    </div>
-}
+            <p>@x.Comment</p>
+
+           @using (Html.BeginForm("Comment", "Category"))
+                {
+                    <div>Post Comment</div>
+                    
+                     <input type="text" name="Comment" size="30" />
+                  
+                    <input type="hidden" name="PhotoId" value="@x.PhotoId" />
+                    <input type="hidden" name="CategoryId" value="@x.CategoryId" />
+                    <input type="hidden" name="Location" value="@x.Location" />
+                    <input type="submit" value="Comment" class="btn btn-warning"/>
+                    <br/>
+                    <br />
+                 }
+         }
+
+  }
+
 
