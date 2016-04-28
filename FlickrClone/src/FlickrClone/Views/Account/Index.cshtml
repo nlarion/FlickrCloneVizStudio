@@ -32,6 +32,9 @@
         <p>No Categories have been added yet!</p>
     }
 
+    <p>@Html.ActionLink("News Feed", "Index", "NewsFeed")</p>
+
+
     <h2>Create Category</h2>
     @using (Html.BeginForm("newCategory", "Account"))
     {
@@ -50,5 +53,6 @@ else
 {
     <p>@Html.ActionLink("Register", "Register")</p>
     <p>@Html.ActionLink("Log in", "Login")</p>
+    <p>@Html.ActionLink("News Feed", "Index", "NewsFeed")</p>
 }
 
